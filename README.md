@@ -1,9 +1,9 @@
 # node-learn
-环境搭建
+# 环境搭建
 	安装 Node.js 解析器
 	    - 解析执行 Node.js 代码（类似浏览器的 JS 解析器）
 
-执行环境 - CLI & REPL
+# 执行环境 - CLI & REPL
 	CLI : 命令行接口
 		windows : cmd、power shell
 		macOS : 终端（terminal）
@@ -230,7 +230,7 @@ Buffer
     Buffer.isEncoding(encoding)
     	ascii、utf8、utf16le、ucs2、base64、latin1、binary、hex
 
-FileSystem
+# FileSystem
 	fs模块提供了一些与文件系统进行交互的 API
 	require('fs')
 	数据的基本操作：CURD
