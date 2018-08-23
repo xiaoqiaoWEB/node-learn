@@ -149,3 +149,98 @@ EventLoop
     		http://www.ecma-international.org/ecma-262/#table-42
     	import
     		http://www.ecma-international.org/ecma-262/#table-40
+
+Event-模块
+	事件是整个 Node.js 的核心，Node.js中大部分模块都使用或继承了该模块（类似 WebAPI 中的EventTarget）。
+	使用：
+		require('event')
+
+		EventEmitter 类
+        	.emit(eventName[, ...args])
+        	.addListener(eventName, listener)
+        	.on(eventName, listener)
+        	.off(eventName, listener)
+        	.removeListener(eventName, listener)
+        	……
+
+Process
+	process 对象是一个全局变量，它提供当前 Node.js 进程的有关信息，以及控制当前 Node.js 进程
+	使用
+		全局对象，不需要 require
+	API
+		.argv
+		.env
+		.exit([code])
+
+	process.stdout
+    	标准输出流
+    	.write(data[, encoding][, callback])
+    process.stdin
+    	标准输入流
+    	事件：
+    		'data'
+
+Stream
+	流（stream）是一种在 Node.js 中处理流式数据的抽象接口。 stream 模块提供了一些基础的 API，用于构建实现了流接口的对象，Node.js 中许多的对象都是提供了流的实现：fs文件操作、net、dgram、http、https等
+	使用
+		require('stream')
+
+	流的基本类型
+    	Writable - 可写入数据的流（例如 fs.createWriteStream()）
+    	Readable - 可读取数据的流（例如 fs.createReadStream()）
+    	Duplex - 可读又可写的流（例如 net.Socket）
+    	Transform - 在读写过程中可以修改或转换数据的 Duplex 流（例如 zlib.createDeflate()）
+    Writable属性方法
+    	.write(chunk[, encoding][, callback])
+    	.end([chunk][, encoding][, callback])
+    	.setDefaultEncoding(encoding)
+    	Writable事件
+    Readable属性方法
+    	.setEncoding(encoding)
+    	.read([size])
+    	.pipe(destination[, options])
+    	.pause()
+    	.resume()
+    	Readable事件
+
+Buffer
+	用于操作二进制数据的类
+		- 类似数组
+		- 长度固定
+		- 只能操作二进制数据
+	Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require
+
+	Buffer.alloc(size[, fill[, encoding]])
+    		分配一个大小为 size 字节的新建的 Buffer 。 如果 fill 为 undefined ，则该 Buffer 会用 0 填充，encoding默认为 'utf8'
+    	Buffer也有下标，可以通过 buf[index] 进行操作
+    	length：字节长度（非字符长度）
+
+    buf.fill(value[, offset[, end]][, encoding])
+    buf.write(string[, offset[, length]][, encoding])
+    buf.includes(value[, byteOffset][, encoding])
+    buf.indexOf(value[, byteOffset][, encoding])
+    buf.equals(otherBuffer)
+    buf.copy(target[, targetStart[, sourceStart[, sourceEnd]]])
+    buf.compare(target[, targetStart[, targetEnd[, sourceStart[, sourceEnd]]]])
+    Buffer.byteLength(string[, encoding])
+    Buffer.compare(buf1, buf2)
+    Buffer.concat(list[, totalLength])
+    Buffer.from(array)
+    Buffer.isBuffer(obj)
+    Buffer.isEncoding(encoding)
+    	ascii、utf8、utf16le、ucs2、base64、latin1、binary、hex
+
+FileSystem
+	fs模块提供了一些与文件系统进行交互的 API
+	require('fs')
+	数据的基本操作：CURD
+		Create、Update、Read、Delete
+    fs.ReadStream 类
+    		fs.createReadStream(path[, options])
+    fs.WriteStream 类
+    		fs.createWriteStream(path[, options])
+    fs.Stats 类
+    		fs.stat(path[, options], callback)
+    fs.FSWatcher 类
+    		fs.watch(filename[, options][, listener])
+    		fs.watchFile(filename[, options], listener)
