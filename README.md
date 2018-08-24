@@ -150,7 +150,7 @@ EventLoop
     	import
     		http://www.ecma-international.org/ecma-262/#table-40
 
-Event-模块
+#Event-模块
 	事件是整个 Node.js 的核心，Node.js中大部分模块都使用或继承了该模块（类似 WebAPI 中的EventTarget）。
 	使用：
 		require('event')
@@ -163,7 +163,7 @@ Event-模块
         	.removeListener(eventName, listener)
         	……
 
-Process
+#Process
 	process 对象是一个全局变量，它提供当前 Node.js 进程的有关信息，以及控制当前 Node.js 进程
 	使用
 		全局对象，不需要 require
@@ -180,8 +180,9 @@ Process
     	事件：
     		'data'
 
-Stream
-	流（stream）是一种在 Node.js 中处理流式数据的抽象接口。 stream 模块提供了一些基础的 API，用于构建实现了流接口的对象，Node.js 中许多的对象都是提供了流的实现：fs文件操作、net、dgram、http、https等
+#Stream
+	流（stream）是一种在 Node.js 中处理流式数据的抽象接口。 stream 模块提供了一些基础的 API，用于构建实现了流接口的对象，
+	Node.js 中许多的对象都是提供了流的实现：fs文件操作、net、dgram、http、https等
 	使用
 		require('stream')
 
@@ -203,7 +204,7 @@ Stream
     	.resume()
     	Readable事件
 
-Buffer
+#Buffer
 	用于操作二进制数据的类
 		- 类似数组
 		- 长度固定
@@ -244,3 +245,53 @@ Buffer
     fs.FSWatcher 类
     		fs.watch(filename[, options][, listener])
     		fs.watchFile(filename[, options], listener)
+
+
+# commander.js  --- 命令行开发工具
+
+    通过option设置的选项可以通过program.chdir或者program.noTests来访问。
+    通过command设置的命令通常在action回调中处理逻辑。
+
+    version
+        用法： .version('x.y.z')
+
+        用于设置命令程序的版本号，
+
+    option
+        用户：.option('-n, --name <name>', 'your name', 'GK')
+
+        第一个参数是选项定义，分为短定义和长定义。用|，,，连接。
+        参数可以用<>或者[]修饰，前者意为必须参数，后者意为可选参数。
+        第二个参数为选项描述
+        第三个参数为选项参数默认值，可选。
+
+    command
+        用法：.command('init <path>', 'description')
+
+    command的用法稍微复杂，原则上他可以接受三个参数，第一个为命令定义，第二个命令描述，第三个为命令辅助修饰对象。
+        第一个参数中可以使用<>或者[]修饰命令参数
+        第二个参数可选。
+        当没有第二个参数时，commander.js将返回Command对象，若有第二个参数，将返回原型对象。
+        当带有第二个参数，并且没有显示调用action(fn)时，则将会使用子命令模式。
+        所谓子命令模式即，./pm，./pm-install，./pm-search等。这些子命令跟主命令在不同的文件中。
+        第三个参数一般不用，它可以设置是否显示的使用子命令模式。
+
+    description
+        用法：.description('command description')
+
+        用于设置命令的描述
+
+    action
+        用法：.action(fn)
+
+         用于设置命令执行的相关回调。fn可以接受命令的参数为函数形参，顺序与command()中定义的顺序一致。
+
+    parse
+        用法：program.parse(process.argv)
+
+        此api一般是最后调用，用于解析process.argv。
+
+    outputHelp
+        用法：program.outputHelp()
+
+        一般用于未录入参数时自动打印帮助信息。
