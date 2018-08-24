@@ -8,3 +8,4 @@ program
     .option('-e, --enjoy [enjoy]')
 
 program.parse(process.argv)
+
