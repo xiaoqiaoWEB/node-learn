@@ -295,3 +295,78 @@ EventLoop
         用法：program.outputHelp()
 
         一般用于未录入参数时自动打印帮助信息。
+
+# chalk
+    安装
+    	npm i chalk / yarn add chalk
+
+    使用
+    	const chalk = require('chalk')
+    	得到一个 chalk 对象，通过这个对象，我们就可以给控制台中的文字加上各种样式了，就像css一样
+
+    chalk.<style>[.<style>...](string, [string...])
+
+    	Styles
+    		Modifiers 文字修饰：
+    		bold Colors 文字颜色：red、green、yellow、blue、cyan
+    		Background colors 背景颜色：bgRed、bgGreen、bgYellow、bgBlue、bgCyan
+
+        Colors
+        	.hex('#DEADED')
+        	.keyword('orange')
+        	.rgb(15, 100, 204)
+        Background colors
+        	.hex('#DEADED')
+        	.keyword('orange')
+        	.rgb(15, 100, 204)
+
+# Inquirer
+	交互式命令，提问用户，收集用户输入数据
+	安装
+		npm i inquirer
+	使用
+		require('inquirer')
+
+		inquirer.prompt(questions).then(answers=>{
+		})
+
+    questions
+    	type：提问类型，input, confirm, list, rawlist, expand, checkbox, password, editor
+    	name：问题名称，供程序后续使用
+    	message：问题文字，给用户看的
+    	default：默认值
+    	choices：选项
+    	validate：输入验证
+    	filter：数据过滤
+
+        input
+        	提出问题，用户输入答案
+        	可用选项：type, name, message[, default, filter, validate, transformer]
+
+        confirm
+        	提出选择，用户选择 Y or N
+        	可用选项：type, name, message, [default]
+        	default如果提供，必须是 boolean 类型
+
+        list
+        	单选
+        	可用选项：type, name, message, choices[, default, filter]
+        	choices为一个数组，数组中可以是简单的字符串，也可以是一个包含了name和value属性的对象
+        	默认选中项为数组中某条数据的下标
+
+        rawlist
+        	单选
+        	可用选项：type, name, message, choices[, default, filter]
+        	choices为一个数组，数组中可以是简单的字符串，也可以是一个包含了name和value属性的对象
+        	默认选中项为数组中某条数据的下标
+
+        checkbox
+        	多选
+        	可用选项：type, name, message, choices[, filter, validate, default]
+            choices 为一个对象数组，对象中 checked 属性 为 true 的表示选中项
+
+        validate方法
+        	对用户输入或选择的内容进行验证，返回boolean值，确定提问是否继续
+        	可以返回字符串作为验证失败的提示
+
+

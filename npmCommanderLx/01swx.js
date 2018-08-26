@@ -20,8 +20,5 @@ program.action(()=>{
         console.log('Hello')
 })
 
-
-
-
 // 解析来自process.argv上的数据，会自动帮助我们添加一个 -h 的解析
 program.parse(process.argv)
