@@ -1,0 +1,15 @@
+{
+  "name": "clobal-swx",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": { //包 要全局安装的时候
+    "clobal-swx": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

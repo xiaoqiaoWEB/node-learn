@@ -370,3 +370,131 @@ EventLoop
         	可以返回字符串作为验证失败的提示
 
 
+# GUI
+	图形用户界面（Graphical User Interface，简称 GUI，又称图形用户接口）是指采用图形方式显示的计算机操作用户界面
+	与 CLI 相比，图形界面对于普通用户在视觉和操作上更加容易接受
+	
+# 基于Node.js的GUI框架
+	NW.JS（Node-Webkit）
+	Electron
+	
+	使用HTML、CSS、JavaScript来构建 UI、处理与用户的交互，同时不约而同的使用了开源浏览器 Chromium
+	使用 Node.js 来访问 浏览器 之外的内容，比如系统、文件、网络等等……
+	
+# Electron
+	使用 JavaScript, HTML 和 CSS 构建跨平台的桌面应用
+	当前最新版本：2.0.8
+	Node版本：8.9.3
+	Chromium：61.0.3163.100
+
+	构建项目
+		npm init
+		设置项目入口文件：
+			“main”: “index.js”
+			项目入口文件是 Electron 第一个加载的文件，是整个项目的入口
+	
+	主进程与渲染进程
+	在 Electron 中，被 Electron 直接运行的脚本（package.json 中指定的 main 脚本）被称为主进程
+	在 Electron 中用来展示界面的 web 页面都运行在一个独立的，属于它自己的渲染进程中
+	我们可以通过主进程来创建 web 页面，但一个 web 页面被销毁的时候，对应的渲染进程也会被终止
+	主进程管理所有的 web 页面和它们对应的渲染进程
+	一个应用程序有且仅有一个主进程
+	
+	在 Electron 中，Electron 同时为 主进程 与 渲染进程暴露了 Node.js 的所有接口，也就是说，我们可以在 Electron 的主进程 与 渲染进程 中使用 Node.js 的 API
+	
+	在 Electron 中使用 Node.js API
+	
+	同时，在 Electron 中，也提供了大量的 API 去帮助我们开发桌面应用程序，我们可以通过 require('electron') 来引入它们，需要注意的是，
+	API 是区分进程类型的，也就是有的 API 只能在特定（主进程或渲染进程中进行使用）
+
+	安装
+		npm i electron
+		require('electron')
+	
+	app 对象
+		该对象提供了一系列的事件用来控制整个应用程序的生命周期，从打开到关闭，如：
+			ready、window-all-closed、quit……
+		同时也提供了一些方法来管理应用程序的状态与行为，如：
+		quit()、relaunch()、hide()、show()……
+	
+	BrowserWindow 类
+		创建和控制浏览器窗口
+	
+		new BrowserWindow( [options] )
+		options：窗口选项 - 
+		https://electronjs.org/docs/api/browser-window
+	
+	BrowserWindow 对象
+		每一个 BrowserWindow 对象的实例都是一个独立的渲染进程，同时该对象也提供了各种用于操控的 API，包括：事件、属性、方法
+		
+		实例事件
+			close、closed、focus、blur、show、hide……
+		
+		实例属性
+			webContents：窗口包含的内容对象
+			id：窗口的唯一 ID
+			
+		实例方法
+			close()、show()、hide()、maximize()、unmaximize()、setSize()、getSize()、setPosition()、getPosition()、setTitle()、getTitle()
+			loadFile() ： 加载页面（这就是我们要显示的内容了），页面地址使用相对路径，相对路径相对于应用程序根目录
+			loadURL() : 使用 URL 协议加载文件，可以是 http 协议，也可以是 file 协议
+			
+		窗口
+			一般窗口
+			无边框窗口
+				BrowserWindow 的 options
+					frame ： false
+			透明窗口
+				BrowserWindow 的 options
+					transparent ： true
+			父子窗口
+				BrowserWindow 的 options
+					parent： 父窗口对象
+				子窗口永远显示在父窗口的前面
+			模态窗口
+				BrowserWindow 的 options
+					parent： 父窗口对象
+					modal : true
+				子窗口会禁用父窗口
+		
+		菜单
+			创建原生应用菜单和上下文菜单
+			
+		Menu 类
+			创建新菜单
+			new Menu()
+			
+		添加菜单项目
+			添加菜单项到应用程序菜单和上下文菜单中
+		
+		MenuItem 类
+			new MenuItem( [options] )
+				options : https://electronjs.org/docs/api/menu-item
+				
+		添加菜单项目
+		注意事项：
+			当菜单有子菜单的时候，父菜单的 type 应设置为 submenu
+			
+		添加菜单项目到指定菜单
+			菜单实例.append(菜单项)
+			菜单实例.insert(位置, 菜单项)
+		
+		
+		把菜单添加到应用程序顶层
+			Menu.setApplicationMenu(menu对象)
+			
+		作为右键（上下文）菜单
+			菜单实例.popup(options)
+				options：
+					window：指定窗口
+					x/y : 位置
+					callback : 关闭后的回调
+			菜单实例.closePopup()
+				关闭上下文菜单
+				
+		快速构建菜单项
+			Menu.buildFromTemplate(template)
+				template：
+					template是一个数组，用于快速构建 MenuItem
+					
+		
