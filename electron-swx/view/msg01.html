@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>msg01</h1>
+    <input type="button" value="button">
+    <input type="button" value="button2">
+<script>
+    const {remote,ipcRenderer} = require('electron');
+    let button = document.querySelectorAll('input');
+
+    //点击按钮 请求进程 数据
+    button[0].onclick = function () {
+        ipcRenderer.send('getData','name')
+    }
+
+
+    //接收主进程 返回的数据
+    ipcRenderer.on('sendData',(e,key)=>{
+        console.log(key)
+    })
+
+    ipcRenderer.on('msg',(e, ...data)=>{
+        console.log(data)
+    })
+
+    button[1].onclick = function () {
+        localStorage.setItem('val','swx-swx');
+    }
+
+</script>
+</body>
+</html>
