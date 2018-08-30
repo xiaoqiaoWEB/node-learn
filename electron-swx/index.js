@@ -36,7 +36,7 @@ app.on('ready',()=>{
     w1.loadFile('./view/index.html');
 
     // 支持加载远程文件，支持http协议，也支持file协议
-    //w2.loadURL('http://cn.swxpx.net');
+    w2.loadURL('http://cn.swxpx.net');
 
 })
 
