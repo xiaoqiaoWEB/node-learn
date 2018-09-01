@@ -6,7 +6,7 @@ const path = require('path');
 //获取后缀名
 //console.log(path.extname('index.js'))
 
-const Miemodel = require('./model/getmimefromFile.js');
+const Miemodel = require('./model/getmimeCallback.js');
 
 
 http.createServer((req,res)=>{
@@ -43,11 +43,15 @@ http.createServer((req,res)=>{
                 })
             }else{
                 //文件存在
-                let filetype = Miemodel.getMime(extname);//获得文件类型
-                res.writeHead(200,{"Content-Type":""+filetype+";charset='utf-8'"});
-                res.write(data);
-                res.end(); /*结束响应*/
+                let filetype = Miemodel.getMime(extname,(filetype)=>{ //添加回调 解决异步
+
+                    res.writeHead(200,{"Content-Type":""+filetype+";charset='utf-8'"});
+                    res.write(data);
+                    res.end(); /*结束响应*/
+
+                });//获得文件类型
+
             }
         })
     }
-}).listen(8000)
+}).listen(8001)

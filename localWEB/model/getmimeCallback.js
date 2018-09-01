@@ -2,12 +2,20 @@
 const fs = require('fs');
 
 
-module.exports.getMime = function (extname) {
+module.exports.getMime = function (extname,callback) {
 
-    //读取数据-同步
-    var data=fs.readFileSync('./mime.json');
-    //data.toString() 转换成json字符串
-    var Mimes=JSON.parse(data.toString());  /*把json字符串转换成json对象*/
-    return Mimes[extname] || 'text/html';
+    //异步读取文件
+    fs.readFile('./mime.json',(err,data)=>{
+        if(err){
+            console.log('文件不存在');
+            return false;
+        }
+        let mime = JSON.parse(data.toString());
+        let result = mime[extname]
+
+        //利用回调解决异步
+        callback(result);
+    })
 
 }
+

@@ -1,8 +1,9 @@
 
 const fs = require('fs');
+const events = require('events');
+let EventEmitter = new events.EventEmitter();
 
-
-module.exports.getMime = function (extname,callback) {
+module.exports.getMime = function (extname) {
 
     //异步读取文件
     fs.readFile('./mime.json',(err,data)=>{
@@ -14,7 +15,8 @@ module.exports.getMime = function (extname,callback) {
         let result = mime[extname]
 
         //利用回调解决异步
-        callback(result);
+        EventEmitter.emit('to_mime',result)
+
     })
 
 }

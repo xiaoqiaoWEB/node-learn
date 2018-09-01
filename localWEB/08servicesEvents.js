@@ -2,12 +2,15 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const path = require('path');
+const events = require('events');
+let EventEmitter = new events.EventEmitter();
 
 //获取后缀名
 //console.log(path.extname('index.js'))
 
-const Miemodel = require('./model/getmimeCallback.js');
+const Miemodel = require('./model/getmimeEvents.js');
 
+console.log(EventEmitter)
 
 http.createServer((req,res)=>{
 
@@ -42,16 +45,17 @@ http.createServer((req,res)=>{
                     res.end(); /*结束响应*/
                 })
             }else{
-                //文件存在
-                let filetype = Miemodel.getMime(extname,(filetype)=>{ //添加回调 解决异步
 
-                    res.writeHead(200,{"Content-Type":""+filetype+";charset='utf-8'"});
-                    res.write(data);
-                    res.end(); /*结束响应*/
+                Miemodel.getMime(extname);  /*调用获取数据的方法*/
 
-                });//获得文件类型
+                EventEmitter.on('to_mime',function(fileType){
+
+                    res.writeHead(200,{"Content-Type":""+fileType+";charset='utf-8'"});
+                    //res.write(data);
+                    res.end(data); /*结束响应*/
+                })
 
             }
         })
     }
-}).listen(8001)
+}).listen(8002)
