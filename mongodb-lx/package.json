@@ -1,0 +1,15 @@
+{
+  "name": "mongodb-lx",
+  "version": "1.0.0",
+  "description": "mongod --dbpath url 开启数据库\r     mongo 管理数据",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "mongodb": "^2.2.36"
+  }
+}
