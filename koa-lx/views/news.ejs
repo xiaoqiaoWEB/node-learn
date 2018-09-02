@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <!--引入header-->
+    <% include header.ejs %>
+    <h1>这里是news</h1>
+    <ul>
+        <%for(var i=0; i<pubList.length; i++){%>
+        <li><%=list[i]%></li>
+        <%}%>
+    </ul>
+</body>
+</html>

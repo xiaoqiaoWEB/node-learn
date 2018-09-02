@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/basic.css"/>
+</head>
+<body>
+    <!--引入header-->
+    <% include header.ejs %>
+    <h1>这里是首页</h1>
+    <h2>
+        <%=title%>
+    </h2>
+    <ul>
+        <%for(var i=0; i<list.length; i++){%>
+        <li><%=i%><%=list[i]%></li>
+        <%}%>
+    </ul>
+    <hr>
+    <ul>
+        <%for(var i=0; i<pubList.length; i++){%>
+        <li><%=list[i]%></li>
+        <%}%>
+    </ul>
+    <img src="images/a.png" alt="">
+</body>
+</html>

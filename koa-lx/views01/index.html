@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>koa-art-template</div>
+    <h1>{{list.name}}</h1>
+    <dvi>
+        html
+        {{@list.h}}
+    </dvi>
+    <h2>条件</h2>
+    {{if list.num>20}}
+        <span>大于20</span>
+    {{else}}
+        <span>小于20</span>
+    {{/if}}
+    <h2>循环数据</h2>
+    <ul>
+        {{each list.data}}
+        <li>{{$index}}--{{$value}}</li>
+        {{/each}}
+    </ul>
+    {{include 'footer.html'}}
+</body>
+</html>

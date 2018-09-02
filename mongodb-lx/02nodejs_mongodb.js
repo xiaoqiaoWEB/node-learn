@@ -25,13 +25,13 @@ app.get('/',function(req,res){
         var list = [];
 
         //从数据库查询数据
-        var result = db.collection('admin').find({});
+        var result = db.collection('admin').find({}).limit(5);
 
         result.toArray((err,doc)=>{
             if(err){
                 console.log(err)
             }else{
-                console.log(doc);
+                //console.log(doc);
                 list = doc;
                 ejs.renderFile('views/index.ejs',{list},(error,data)=>{
                     res.send(data);
