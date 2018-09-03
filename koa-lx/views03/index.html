@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .table{
+            width:100%;
+            border-collapse: collapse;
+        }
+        .table td,.table th{
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>这里是列表</h1>
+    <a href="/add">添加列表</a>
+    <table class="table">
+        <tr>
+            <th>姓名</th>
+            <th>VIP</th>
+            <th>操作</th>
+        </tr>
+        {{each result}}
+        <tr>
+            <td>{{$value.name}}</td>
+            <td>{{$value.vip}}</td>
+            <td>
+                <a href="">修改</a>
+                <a href="">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</body>
+</html>

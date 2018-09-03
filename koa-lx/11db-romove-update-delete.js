@@ -1,0 +1,62 @@
+const Koa = require('koa');
+const router = require('koa-router')();
+const render = require('koa-art-template');
+const path = require('path');
+const bodyParser=require('koa-bodyparser');
+const DB = require('./module/db.js');
+
+
+const app = new Koa();
+//配置post 中间件
+app.use(bodyParser());
+//配置模板 中间件
+render(app, {
+    root: path.join(__dirname, 'views03'),   // 视图的位置
+    extname: '.html',  // 后缀名
+    debug: process.env.NODE_ENV !== 'production'  //是否开启调试模式
+
+});
+
+//显示列表
+router.get('/',async (ctx)=>{
+
+    //得到列表数据
+    let result = await DB.find('admin',{});
+    //console.log(result)
+    await ctx.render('index.html',{result})
+})
+
+//添加用户
+router.get('/add',async (ctx)=>{
+
+    await ctx.render('add.html')
+})
+
+//执行添加用户
+router.post('/doAdd',async (ctx)=>{
+    //获得post 传值
+    let postData = ctx.request.body;
+    //提交数据到数据库
+    let data = await DB.insert('admin',postData)
+
+    try{
+        if(data.result.ok){
+            ctx.redirect('/');
+        }
+    }catch (err) {
+        console.log(err);
+        return;
+        ctx.redirect('/add');
+    }
+
+})
+
+//修改数据
+//执行修改
+
+//删除数据
+//执行删除数据
+
+app.use(router.routes());   /*启动路由*/
+app.use(router.allowedMethods());
+app.listen(8005);

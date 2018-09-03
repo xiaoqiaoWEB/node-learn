@@ -12,6 +12,7 @@
 
  3、
 
+
  render(app, {
      root: path.join(__dirname, 'view'),   视图的位置
      extname: '.art', 后缀名
@@ -47,7 +48,6 @@ router.get('/',async (ctx)=>{
     }
     await ctx.render('index.html',{list})
 })
-
 
 
 app.use(router.routes());   /*启动路由*/
