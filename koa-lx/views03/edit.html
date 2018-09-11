@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>添加用户</h1>
+<form action="/doedit" method="post">
+    <input type="text" value="{{@list._id}}" name="id">
+    name:<input type="text" name="name" value="{{list.name}}"><br>
+    vip: <input type="text" name="vip" value="{{list.vip}}"><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

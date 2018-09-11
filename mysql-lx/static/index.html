@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <h1>app</h1>
+    <div id="app">
+        <div>
+            <input type="text" v-model="newValue" />
+            <button @click="add">添加新任务</button>
+        </div>
+       <ul>
+           <li v-for="item in todos">
+               {{item.title}}
+           </li>
+       </ul>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                todos: [],
+                newValue:''
+            },
+            created(){
+               this.getData();
+            },
+            methods:{
+                getData(){
+                    fetch('/todos').then(res => {
+                        return res.json();
+                    }).then( data => {
+                        this.todos = data.data;
+                        console.log(data)
+                    })
+
+                },
+                add() {
+                    fetch('/add', {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify( {title: this.newValue} )
+                    }).then(res => {
+                        return res.json();
+                    }).then( data => {
+                        // this.todos = data.data;
+                        // console.log(1)
+                        if (!data.code) {
+                            this.getData();
+                        }
+                    } )
+
+                    this.newValue = '';
+                }
+            }
+        })
+    </script>
+</body>
+</html>

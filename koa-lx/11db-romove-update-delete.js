@@ -52,10 +52,68 @@ router.post('/doAdd',async (ctx)=>{
 })
 
 //修改数据
+router.get('/edit',async (ctx)=>{
+    //得到get 传值
+    let id = ctx.query.id;
+    //查找数据
+    let data = await DB.find('admin',{"_id":DB.getObjectId(id)});
+
+    console.log(data[0])
+
+    try{
+        if(data){
+            ctx.render('edit.html',{list:data[0]});
+        }
+    }catch (err) {
+        console.log(err);
+        return;
+        ctx.redirect('/');
+    }
+})
 //执行修改
+router.post('/doEdit',async (ctx)=>{
+
+    let id = ctx.request.body.id;
+    let name = ctx.request.body.name;
+    let vip = ctx.request.body.vip;
+
+    //修改数据
+
+    let data = await DB.update('admin',{"_id":DB.getObjectId(id)},{
+        name,vip
+    })
+
+    try{
+        if(data.result.ok){
+            ctx.redirect('/');
+        }
+    }catch (err) {
+        console.log(err);
+        return;
+        ctx.redirect('/add');
+    }
+})
 
 //删除数据
-//执行删除数据
+router.get('/delete',async (ctx)=>{
+    let id = ctx.query.id;
+
+    console.log(id)
+
+    let data = await DB.remove('admin',{"_id":DB.getObjectId(id)})
+
+    try{
+        if(data.result.ok){
+            ctx.redirect('/');
+        }
+    }catch (err) {
+        console.log(err);
+        return;
+        ctx.redirect('/');
+    }
+
+})
+
 
 app.use(router.routes());   /*启动路由*/
 app.use(router.allowedMethods());
