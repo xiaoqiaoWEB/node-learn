@@ -4,58 +4,115 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .done{
+            text-decoration: line-through;
+            color: #dae0e5;
+        }
+        li{
+            line-height: 40px;
+        }
+        .pages span{
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 18px;
+
+            display: inline-block;
+            margin-right: 10px;
+            border: 2px solid #000000;
+        }
+        .pages span.active{
+            background: #00b33b;
+        }
+        .footer{
+            padding-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>app</h1>
     <div id="app">
         <div>
-            <input type="text" v-model="newValue" />
-            <button @click="add">添加新任务</button>
+            <input type="text" v-model="newValue"/>
+            <button @click= "add">添加新任务</button>
         </div>
        <ul>
-           <li v-for="item in todos">
-               {{item.title}}
+           <li v-for="item in todos" :id="item.id" :class="{done: item.done}" @click.prevent="toggle(item.id, !item.done)">
+               <input type="checkbox" :checked="item.done">
+              {{item.id}}----->{{item.title}}
+               &nbsp;&nbsp;&nbsp;&nbsp;
+               <button @click="remove(todo.id)">删除</button>
            </li>
        </ul>
+        <div class="pages">
+            <span v-for="n in pages" :class="{active: n==page}" @click.prevent="changePage(n)">{{n}}</span>
+        </div>
+        <div class="footer">
+            <button :class="{active: type===''}" @click="changeType('')">所有</button>
+            <button :class="{active: type===1}" @click="changeType(1)">已完成</button>
+            <button :class="{active: type===0}" @click="changeType(0)">未完成</button>
+        </div>
     </div>
     <script>
         new Vue({
             el:"#app",
             data:{
                 todos: [],
-                newValue:''
+                newValue:'',
+                page: 1,
+                prepage: 5,
+                pages: 0,
+                type:0
             },
             created(){
                this.getData();
             },
-            methods:{
-                getData(){
-                    fetch('/todos').then(res => {
-                        return res.json();
-                    }).then( data => {
-                        this.todos = data.data;
-                        console.log(data)
+            methods: {
+                getData() {
+                    axios.get('/todos?page='+this.page+'&prepage='+this.prepage+'&pages='+this.pages+'&type='+this.type).then((news) => {
+                        this.todos = news.data.data.data;
+                        this.pages = news.data.data.pages;
                     })
-
                 },
-                add() {
-                    fetch('/add', {
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify( {title: this.newValue} )
-                    }).then(res => {
-                        return res.json();
-                    }).then( data => {
-                        // this.todos = data.data;
-                        // console.log(1)
-                        if (!data.code) {
+                add(){
+                    axios.post('/add',{
+                       title: this.newValue
+                    }).then((res)=>{
+                      if(!res.data.code){
+                          this.getData();
+                      }
+                    })
+                    this.newValue = '';
+                },
+                changePage(n){
+                    this.page = n;
+                    this.getData();
+                },
+                changeType(m){
+                    this.type = m;
+                    this.getData();
+                },
+                toggle(id,todo){
+                    axios.post('/toggle',{
+                        id:id,
+                        todo:todo
+                    }).then(res=>{
+                        if(!res.data.code){
                             this.getData();
                         }
-                    } )
-
-                    this.newValue = '';
+                    })
+                },
+                remove(id) {
+                    axios.post('/remove',{
+                        id:id
+                    }).then(res=>{
+                        if(!res.data.code){
+                            this.getData();
+                        }
+                    })
                 }
             }
         })
