@@ -83,27 +83,201 @@
 
     //let kim = new userModel()  //创建了一个User的记录
 
-    //添加
-    /*
-    let kim = userModel.build({
-            username :'kim',
-            age:'30',
-            gender:'男'
-        });
-    // 通过new或者build出来的对象不会立即同步到数据库中，需要使用后续的一些方法来同步
-    await kim.save();
-    */
+    //添加/
+    // let kim = userModel.build({
+    //         username :'kim02',
+    //         age:'18',
+    //         gender:'男'
+    //     });
+    // // 通过new或者build出来的对象不会立即同步到数据库中，需要使用后续的一些方法来同步
+    // await kim.save();
+    //
+    // console.log(kim.dataValues)
+
     //console.log(kim)  // === INSERT INTO `user` (`id`,`username`,`age`,`gender`) VALUES (DEFAULT,'kim','30','男');
 
     //修改
 
-    let xiugai = await userModel.findById(1);
+    //let xiugai = await userModel.findById(1);
     // xiugai.set('username','xiaoqiao');
     // xiugai.save();
 
     // update = set + save
    // await xiugai.update({'gender':'女'})  //==UPDATE `user` SET `gender`='女' WHERE `id` = 1
 
+    /**
+     * fineOne
+     */
 
+    // let rs = await userModel.findOne({
+    //     where: {
+    //         username: '小乔'
+    //     }
+    // });
+    // console.log(rs);
+
+    /**
+     * findAll
+     */
+
+   // let rs = await userModel.findAll();
+   // console.log(rs.map(r => r.get('username')));
+
+    // let rs = await userModel.findAll({
+    //         where: {
+    //             //username:'小乔'   //username='小乔'
+    //            // username: {         //和上面一致
+    //            //     [Sequelize.Op.eq]:'小乔'
+    //            // }
+    //            //  age: {
+    //            //      [Sequelize.Op.gte]:20   //》=20
+    //            //  }
+    //
+    //             // age: {
+    //             //     [Sequelize.Op.gt]:20  //>20
+    //             // }
+    //
+    //             // 多条件
+    //
+    //             [Sequelize.Op.or]: {
+    //                 age: {
+    //                     [Sequelize.Op.gt]:20
+    //                 },
+    //                 gender: {
+    //                     [Sequelize.Op.eq]:'女'
+    //                 }
+    //             }
+    //         }
+    //     });
+    //console.log(rs)
+
+    /**
+     * limit
+     */
+    // let rs = await userModel.findAll({
+    //     limit:2
+    // })
+    // console.log(rs.map(r => r.get('username')))
+
+    /**
+     * offset
+     */
+    // let rs = await userModel.findAll({
+    //     limit:2,
+    //     offset:2
+    // })
+    // console.log(rs.map(r => r.get('id')))
+
+    /**
+     * order
+     */
+    // let rs = await userModel.findAll({
+    //     order:[
+    //         ['id','desc']
+    //     ]
+    // })
+    // console.log(rs.map(r => r.get('id')))
+
+    /**
+     * count
+     */
+    // let rs = await userModel.count({
+    //     where: {
+    //         gender:'男',
+    //         age:{
+    //             [Sequelize.Op.gt]:20
+    //         }
+    //     }
+    // });
+    // console.log(rs)
+
+    /**
+     * findAndCountAll
+     */
+    // let rs = await userModel.findAndCountAll({
+    //         limit:3
+    // });
+    // console.log(rs);
+
+
+    /**
+     * sum
+     */
+    // let rs = await userModel.sum('age',{
+    //         where:{
+    //             gender:'男'
+    //         }
+    //     });
+    // console.log(rs);
+
+    //定义 msg 表
+    const msgModel = sequelize.define('Message',{
+            id:{
+                // 每一个字段的信息
+                type:Sequelize.INTEGER(10),
+                allowNull:false,
+                primaryKey:true,
+                autoIncrement:false
+            },
+            uid:{ // 其他的表的字段，把当前字段定义为外键---- uid ->userModel->id
+                type:Sequelize.INTEGER(10),
+                allowNull:false,
+                primaryKey:true,
+                autoIncrement:false,
+                defaultValue: 0,
+                references: {
+                    model: userModel,
+                    key: 'id'
+                }
+            },
+            msg:{
+                type:Sequelize.STRING(255),
+                allowNull:false,
+                defaultValue: ''
+            }
+        },{
+            timestamps: false,
+            paranoid: false,
+            freezeTableName: true,
+            tableName: 'msg',
+        })
+
+    /**
+     * 关联查询
+     */
+    // 获取某条留言的所有数据：留言本身的数据+该留言的用户数据
+    let data = {};
+
+    // let msg = await msgModel.findById(1);
+    // let user = await userModel.findById(msg.get('uid'));
+    // Object.assign(data,{
+    //     id:msg.get('id'),
+    //     uid:msg.get('uid'),
+    //     username:user.get('username'),
+    //     age:user.get('age'),
+    //     gender:user.get('gender'),
+    //     msg:msg.get('msg')
+    //
+    // })
+    // console.log(data)
+
+    msgModel.belongsTo(userModel, { //唯一关联
+        foreignKey: 'uid'
+    });
+
+    // let data2 = await msgModel.findById(1, {
+    //     include: [userModel]
+    // });
+    //
+    // console.log(data2)
+
+    userModel.hasMany(msgModel, { //一对多
+        foreignKey: 'uid'
+    });
+
+    let data3 = await userModel.findById('2',{
+        include:[msgModel]
+    })
+    console.log(data3)
 
 })()
