@@ -2,8 +2,10 @@
   "compilerOptions":{
       "module":"ES2015",
       "target": "es5",
-      "outDir": "./dist"
-      //"outFile": "./dist/index.js"
+      "outDir": "./dist",
+      //"outFile": "./dist/index.js",
+      "strictNullChecks": true, //严格模式
+      "noImplicitThis": true  //不适用默认的 this 指向
   },
   "include": [
      "./src/**/*" 

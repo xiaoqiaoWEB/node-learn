@@ -5,6 +5,7 @@
 let data1: [number, string, boolean];
 
 // 注意：顺序要对应
+
 data1[0] = 1;
 data1[1] = '1';
 data1[2] = true;
