@@ -5,7 +5,8 @@
       "outDir": "./dist",
       //"outFile": "./dist/index.js",
       "strictNullChecks": true, //严格模式
-      "noImplicitThis": true  //不适用默认的 this 指向
+      "noImplicitThis": true,  //不适用默认的 this 指向
+      "experimentalDecorators": true  //装饰器
   },
   "include": [
      "./src/**/*" 

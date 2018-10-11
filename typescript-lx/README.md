@@ -230,9 +230,74 @@ interface 接口名{
 	接口之间也可以继承
 
 
+- 泛型
+	通常我们会使用变量来表示是一个可变的值，通过变量我们就可以使代码具有很高的可重用性，但是在有类型约束的语言中，有时候不利于代码的复用，通过使用泛型，我们就可以解决这个问题，简单的理解可以说是给类型定义变量
 
+	- 泛型变量
+		function fn(arg: string): string{}
+		function fn<T>(arg: T): T{}
+		function fn<T, S>(arg1: T, arg2: S): [T,S]{}
+	- 数组形式
+		function fn<T>(arg: T[]): T[]{}
+		function fn<T>(arg: Array<T>): Array<T>{}
+	- 泛型类型
+		把泛型作为一种类型使用
+		let fn: <T>(arg: T) => T;
 
+	- 泛型接口
+		interface 接口名<T> {
+			<T>(arg: T): T;
+		}
+		let fn: 接口名<number> = function T(arg: T): T {
+			return arg;
+	- 泛型类
+		class 类名<T> {}
+	
+	- 泛型约束
+		<T extends 类型>
 
+	- 类类型
+		<T>(c: {new(): T})
+
+#装饰器
+	在尽可能不改变类（对象）结构的情况下，扩展其功能
+		启用装饰器模式
+			--experimentalDecorators
+		装饰器是一种特殊类型的声明，它可以被附加到类声明、属性、方法、参数或访问符上
+	- 装饰器函数
+		我们要在一个类或方法上使用装饰器，首先需要提供一个装饰器函数，这个函数会在该装饰器被使用的时候调用
+
+	- 使用装饰器
+		在需要被装饰的类或方法前通过 @装饰器名称 来调用装饰器
+		@f
+		class 类名 {}
+		装饰器可以累加，可以一行也可以多行书写
+	- 类装饰器
+		类装饰器应用于构造函数，可以用来监视、修改或替换类定义
+		类的构造函数会作为类装饰器函数的唯一一个函数
+			function f(constructor: Function) {}
+		修改构造函数
+		function f<T extends {new(...args: any[]):{}}>(constructor: T) {
+		return class extends constructor {
+			age: number = 35;
+			}
+		}
+	- 装饰器工厂函数
+		function f(arg: Object) {
+			return function<T extends {new(...args: any[]):{}}>(constructor: T) {
+				return class extends constructor {
+					age: number = arg.age;
+				}
+			}
+		}
+		@f({age: 35})
+
+	- 方法装饰器
+		用来监视、修改或者替换方法定义
+		方法装饰器会在调用时传入下列3个参数：
+			对于静态成员来说是类的构造函数，对于实例成员来说是类的原型对象
+			成员的名称
+			成员属性描述符
 
 
 	
