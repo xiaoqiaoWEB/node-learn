@@ -3,7 +3,7 @@
     mongod --dbpath url 开启数据库
     mongo 管理数据
 
-    shoe dbs 查看所有数据库列表
+    show dbs 查看所有数据库列表
 
     创建 使用数据库
     use student
