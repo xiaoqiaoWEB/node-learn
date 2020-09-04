@@ -11,6 +11,6 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "koa-session": "^5.9.0",
-    "mongodb": "^2.2.36"
+    "mongodb": "^3.1.13"
   }
 }
